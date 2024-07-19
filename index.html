@@ -5,12 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Página com Hydro</title>
     <style>
-        /* Adicione seu estilo CSS aqui */
+        /* Estilo da página */
+        body {
+            background-color: #3498db; /* Fundo azul */
+            color: #fff; /* Texto branco */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilo do contêiner da animação */
+        .container {
+            text-align: center;
+        }
+
+        /* Estilo da animação de verificação */
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 5px solid #2ecc71;
+            position: relative;
+            animation: pop 0.5s ease-out;
+        }
+
+        .checkmark::after {
+            content: '';
+            width: 30px;
+            height: 15px;
+            border-left: 5px solid #2ecc71;
+            border-bottom: 5px solid #2ecc71;
+            position: absolute;
+            top: 35px;
+            left: 25px;
+            transform: rotate(-45deg);
+            transform-origin: bottom left;
+            animation: draw 0.5s 0.5s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes draw {
+            0% {
+                width: 0;
+                height: 0;
+            }
+            100% {
+                width: 30px;
+                height: 15px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Bem-vindo à minha página!</h1>
-    <p>Conteúdo da página vai aqui.</p>
+    <div class="container">
+        <div class="checkmark"></div>
+        <h1>Bem-vindo à minha página!</h1>
+        <p>Conteúdo da página vai aqui.</p>
+    </div>
 
     <!-- Código de Integração da Hydro -->
     <script id="hydro_config" type="text/javascript">
