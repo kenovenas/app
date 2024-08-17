@@ -81,12 +81,6 @@ def home():
             <h1>Access Key</h1>
             <p>{{ key_data["key"] }}</p>
         </div>
-
-        <!-- Script da Hydro -->
-        <script id="hydro_config" type="text/javascript">
-            window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
-        </script>
-        <script id="hydro_script" src="https://track.hydro.online/"></script>
     </body>
     </html>
     ''')
