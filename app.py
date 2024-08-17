@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify, render_template 
+from flask import Flask, request, jsonify, render_template_string
 import secrets
 import time
 
 app = Flask(__name__)
 application = app
+
 # Armazenamento para chave e seu timestamp
 key_data = {
     "key": None,
@@ -28,7 +29,7 @@ def home():
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
-    return f'''
+    return render_template_string('''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -36,32 +37,59 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Access Key</title>
         <style>
-            body {{
+            body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
                 margin: 0;
-            }}
-            .content {{
+                position: relative;
+                font-family: Arial, sans-serif;
+            }
+            .content {
                 text-align: center;
-            }}
-            .author {{
+            }
+            .author {
                 position: absolute;
                 top: 10px;
                 left: 10px;
-            }}
+                color: #000;
+                font-size: 18px;
+            }
+            .banner-telegram {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: #0088cc;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            .banner-telegram a {
+                color: #ffcc00;
+                text-decoration: none;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
-        <div class="author">Autor = Keno Venas</div>
+        <div class="author">Keno Venas</div>
+        <div class="banner-telegram">
+            <a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Grupo do Telegram</a>
+        </div>
         <div class="content">
             <h1>Access Key</h1>
-            <p>{key_data["key"]}</p>
+            <p>{{ key_data["key"] }}</p>
         </div>
+
+        <!-- Script da Hydro -->
+        <script id="hydro_config" type="text/javascript">
+            window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
+        </script>
+        <script id="hydro_script" src="https://track.hydro.online/"></script>
     </body>
     </html>
-    '''
+    ''')
 
 @app.route('/validate', methods=['POST'])
 def validate_key():
@@ -71,6 +99,5 @@ def validate_key():
             return jsonify({"valid": True}), 200
     return jsonify({"valid": False}), 401
 
-if __name__ == 'main':
-    #//app.run(host='127.0.0.1', port=5000)
-    app.run(debug=true)
+if __name__ == '__main__':
+    app.run(debug=True)
