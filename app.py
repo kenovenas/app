@@ -21,7 +21,7 @@ def is_key_valid():
     if key_data["key"] and key_data["timestamp"]:
         current_time = time.time()
         # Verifica se a chave ainda é válida (5 minutos = 300 segundos)
-        if current_time - key_data["timestamp"] <= 300:
+        if current_time - key_data["timestamp"] <= 180:
             return True
     return False
 
@@ -81,7 +81,7 @@ def home():
             <h1>Access Key</h1>
             <p>{key_data["key"]}</p>
         </div>
-        <!DOCTYPE html>
+        
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -118,8 +118,6 @@ def home():
         Clique aqui para mais script: <a href="https://crypto-faucets.netlify.app" target="_blank">https://crypto-faucets.netlify.app</a>
     </div>
     <!-- O restante do conteúdo da página vai aqui -->
-</body>
-</html>
 
 
         <!-- Script da Hydro -->
