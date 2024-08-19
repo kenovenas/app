@@ -81,16 +81,7 @@ def home():
             <h1>Access Key</h1>
             <p>{key_data["key"]}</p>
         </div>
- <script type="text/javascript">
-	atOptions = {
-		'key' : '78713e6d4e36d5a549e9864674183de6',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.topcreativeformat.com/78713e6d4e36d5a549e9864674183de6/invoke.js"></script>
+
         <!-- Script da Hydro -->
         <script id="hydro_config" type="text/javascript">
             window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
