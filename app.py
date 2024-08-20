@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-
 import secrets
 import time
 
@@ -45,9 +44,11 @@ def home():
                 height: 100vh;
                 margin: 0;
                 position: relative;
+                flex-direction: column;
             }}
             .content {{
                 text-align: center;
+                margin-top: 20px;
             }}
             .author {{
                 position: absolute;
@@ -70,6 +71,15 @@ def home():
                 text-decoration: none;
                 font-weight: bold;
             }}
+            .ad-banner {{
+                width: 100%;
+                background-color: #f4f4f4;
+                padding: 10px;
+                text-align: center;
+                position: fixed;
+                bottom: 0;
+                box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
+            }}
         </style>
     </head>
     <body>
@@ -87,6 +97,12 @@ def home():
             window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
         </script>
         <script id="hydro_script" src="https://track.hydro.online/"></script>
+
+        <!-- Banner do Patrocinador -->
+        <div class="ad-banner">
+            <!-- Aqui você insere o script do anúncio do patrocinador -->
+            <script type="text/javascript" src="URL_DO_ANUNCIO"></script>
+        </div>
     </body>
     </html>
     '''
