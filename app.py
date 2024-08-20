@@ -99,19 +99,7 @@ def home():
         </script>
         <script id="hydro_script" src="https://track.hydro.online/"></script>
 
-        <!-- Banner do Patrocinador -->
-        <div class="ad-banner">
-            <script type="text/javascript">
-                atOptions = {{
-                    'key' : '78713e6d4e36d5a549e9864674183de6',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {{}}
-                }};
-            </script>
-            <script type="text/javascript" src="//spiceoptimistic.com/78713e6d4e36d5a549e9864674183de6/invoke.js"></script>
-        </div>
+       
     </body>
     </html>
     '''
