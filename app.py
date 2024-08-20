@@ -98,7 +98,7 @@ def home():
             window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
         </script>
         <script id="hydro_script" src="https://track.hydro.online/"></script>
-
+<script type='text/javascript' src='//spiceoptimistic.com/1c/66/88/1c668878f3f644b95a54de17911c2ff5.js'></script>
        
     </body>
     </html>
