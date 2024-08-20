@@ -72,7 +72,8 @@ def home():
                 font-weight: bold;
             }}
             .ad-banner {{
-                width: 100%;
+                width: 728px;
+                height: 90px;
                 background-color: #f4f4f4;
                 padding: 10px;
                 text-align: center;
@@ -100,8 +101,16 @@ def home():
 
         <!-- Banner do Patrocinador -->
         <div class="ad-banner">
-            <!-- Aqui você insere o script do anúncio do patrocinador -->
-            <script type="text/javascript" src="URL_DO_ANUNCIO"></script>
+            <script type="text/javascript">
+                atOptions = {{
+                    'key' : '78713e6d4e36d5a549e9864674183de6',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {{}}
+                }};
+            </script>
+            <script type="text/javascript" src="//spiceoptimistic.com/78713e6d4e36d5a549e9864674183de6/invoke.js"></script>
         </div>
     </body>
     </html>
