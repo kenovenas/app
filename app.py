@@ -20,7 +20,7 @@ def is_key_valid():
     if key_data["key"] and key_data["timestamp"]:
         current_time = time.time()
         # Verifica se a chave ainda é válida (5 minutos = 300 segundos)
-        if current_time - key_data["timestamp"] <= 60:
+        if current_time - key_data["timestamp"] <= 120:
             return True
     return False
 
