@@ -110,16 +110,7 @@ def home():
                     'width' : 728,
                     'params' : {{}}
                 }};
-           <script type="text/javascript">
-	atOptions = {
-		'key' : '321613fcda002920be0867afa0669ae6',
-		'format' : 'iframe',
-		'height' : 250,
-		'width' : 300,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//spiceoptimistic.com/321613fcda002920be0867afa0669ae6/invoke.js"></script>
+         
 <script type="text/javascript">
 	atOptions = {
 		'key' : '78713e6d4e36d5a549e9864674183de6',
