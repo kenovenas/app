@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Usuário permitido
-allowed_user = "usuario_configurado"
+allowed_user = "keno"
 
 # Função para gerar uma chave aleatória
 def generate_key():
