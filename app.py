@@ -11,11 +11,8 @@ key_data = {
     "timestamp": None
 }
 
-# Lista de IPs autorizados
-authorized_ips = [
-    '131.161.250.85',  # Adicione aqui os IPs autorizados
-    # Adicione mais IPs aqui, se necessário
-]
+# Lista de IPs permitidos
+allowed_ips = {"131.161.250.85"}
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -30,21 +27,16 @@ def is_key_valid():
             return True
     return False
 
-# Função para verificar se o IP do cliente tem permissão de acesso
-def is_ip_authorized():
-    client_ip = request.remote_addr  # Obtém o IP do cliente
-    print(f"Client IP: {client_ip}")  # Debug para verificar qual IP está sendo capturado
-    return client_ip in authorized_ips
+# Função para verificar se o IP está na lista de permitidos
+def is_ip_allowed(ip):
+    return ip in allowed_ips
 
 @app.route('/')
 def home():
-    # Adiciona um delay de 3 segundos antes de verificar o IP e gerar a chave
-    time.sleep(3)
+    user_ip = request.remote_addr  # Obtém o IP do usuário
 
-    # Verifica se o IP do cliente é autorizado antes de liberar qualquer conteúdo
-    if not is_ip_authorized():
-        # Se o IP não estiver autorizado, exibe a mensagem de acesso negado
-        return '''
+    if not is_ip_allowed(user_ip):
+        return f'''
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -58,40 +50,31 @@ def home():
                     align-items: center;
                     height: 100vh;
                     margin: 0;
-                    flex-direction: column;
                     text-align: center;
                 }}
                 .button {{
-                    margin-top: 20px;
-                    padding: 10px 20px;
                     background-color: #0088cc;
-                    color: #fff;
+                    color: white;
+                    padding: 10px 20px;
                     border: none;
                     border-radius: 5px;
+                    cursor: pointer;
                     text-decoration: none;
-                    font-size: 16px;
-                }}
-                .button:hover {{
-                    background-color: #005f8c;
                 }}
             </style>
         </head>
         <body>
             <h1>Acesso Negado</h1>
-            <p>Entre em contato para obter permissão de acesso.</p>
-            <a class="button" href="https://t.me/Keno_venas" target="_blank">Keno Venas</a>
+            <p>Entre em contato</p>
+            <a href="https://t.me/Keno_venas" class="button">Keno Venas</a>
         </body>
         </html>
         '''
-    
-    # Se o IP for autorizado, verifica se a chave é válida e exibe a página com a chave
+
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
-
-    # Mensagem de depuração para verificar se a chave foi gerada
-    print(f"Chave gerada: {key_data['key']}")  # Debug
-
+        
     return f'''
     <!DOCTYPE html>
     <html lang="en">
