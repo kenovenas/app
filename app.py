@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import secrets
 import time
-import socket
 
 app = Flask(__name__)
 application = app
@@ -12,11 +11,10 @@ key_data = {
     "timestamp": None
 }
 
-# Lista de hostnames autorizados (IP reverso)
-authorized_hosts = [
-    'localhost',  # Para testes locais
-    'exemplo.com',  # Adicione aqui os domínios autorizados
-    # Adicione mais hostnames aqui
+# Lista de IPs autorizados
+authorized_ips = [
+    '131.161.250.80',  # Adicione aqui os IPs autorizados
+    # Adicione mais IPs aqui, se necessário
 ]
 
 # Função para gerar uma chave aleatória
@@ -32,27 +30,20 @@ def is_key_valid():
             return True
     return False
 
-# Função para verificar se o IP reverso (hostname) do cliente tem permissão de acesso
+# Função para verificar se o IP do cliente tem permissão de acesso
 def is_ip_authorized():
     client_ip = request.remote_addr  # Obtém o IP do cliente
-    try:
-        # Faz a resolução reversa do IP para obter o hostname
-        client_hostname = socket.gethostbyaddr(client_ip)[0]
-        print(f"Client IP: {client_ip}, Hostname: {client_hostname}")  # Debug para verificar qual hostname está sendo capturado
-        return client_hostname in authorized_hosts
-    except socket.herror:
-        # Se não conseguir resolver o hostname, retorna False
-        print(f"Falha ao resolver hostname para o IP: {client_ip}")
-        return False
+    print(f"Client IP: {client_ip}")  # Debug para verificar qual IP está sendo capturado
+    return client_ip in authorized_ips
 
 @app.route('/')
 def home():
     # Adiciona um delay de 3 segundos antes de verificar o IP e gerar a chave
     time.sleep(3)
 
-    # Verifica se o IP reverso (hostname) é autorizado antes de liberar qualquer conteúdo
+    # Verifica se o IP do cliente é autorizado antes de liberar qualquer conteúdo
     if not is_ip_authorized():
-        # Se o hostname não estiver autorizado, exibe a mensagem de acesso negado
+        # Se o IP não estiver autorizado, exibe a mensagem de acesso negado
         return '''
         <!DOCTYPE html>
         <html lang="en">
@@ -93,7 +84,7 @@ def home():
         </html>
         '''
     
-    # Se o hostname for autorizado, verifica se a chave é válida e exibe a página com a chave
+    # Se o IP for autorizado, verifica se a chave é válida e exibe a página com a chave
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
