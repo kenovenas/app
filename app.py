@@ -13,8 +13,9 @@ key_data = {
 
 # Usuários permitidos
 allowed_users = {"pstfr", 
-                 "ytdeyxgshjoi",
-                 "usuario_configurado"}  # Adicione os usuários permitidos aqui
+                 "emda",
+                 "wndrsn",
+                "thglm"}  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
 def generate_key():
