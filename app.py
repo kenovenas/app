@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Usuários permitidos
-allowed_users = {"jygdehxsjiljdkx", 
+allowed_users = {"pstfr", 
                  "ytdeyxgshjoi",
                  "usuario_configurado"}  # Adicione os usuários permitidos aqui
 
