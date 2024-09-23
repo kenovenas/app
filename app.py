@@ -11,6 +11,13 @@ key_data = {
     "timestamp": None
 }
 
+# Lista de IPs autorizados
+authorized_ips = [
+    '127.0.0.1',  # Exemplo de IP local para teste
+    '192.168.0.1',  # Exemplo de IP externo, pode adicionar quantos forem necessários
+    # Adicione mais IPs conforme necessário
+]
+
 # Função para gerar uma chave aleatória
 def generate_key():
     return secrets.token_hex(16)  # Gera uma chave hexadecimal de 16 bytes
@@ -24,11 +31,60 @@ def is_key_valid():
             return True
     return False
 
+# Função para verificar se o IP do cliente tem permissão de acesso
+def is_ip_authorized():
+    client_ip = request.remote_addr  # Obtém o IP do cliente
+    return client_ip in authorized_ips
+
 @app.route('/')
 def home():
+    # Verifica se o IP é autorizado antes de liberar a página com a chave
+    if not is_ip_authorized():
+        return '''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Acesso Negado</title>
+            <style>
+                body {{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                    flex-direction: column;
+                    text-align: center;
+                }}
+                .button {{
+                    margin-top: 20px;
+                    padding: 10px 20px;
+                    background-color: #0088cc;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    font-size: 16px;
+                }}
+                .button:hover {{
+                    background-color: #005f8c;
+                }}
+            </style>
+        </head>
+        <body>
+            <h1>Acesso Negado</h1>
+            <p>Entre em contato para obter permissão de acesso.</p>
+            <a class="button" href="https://t.me/Keno_venas" target="_blank">Keno Venas</a>
+        </body>
+        </html>
+        '''
+
+    # Se o IP for autorizado, verifica se a chave é válida e exibe a página
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
+    
     return f'''
     <!DOCTYPE html>
     <html lang="en">
@@ -71,16 +127,6 @@ def home():
                 text-decoration: none;
                 font-weight: bold;
             }}
-            .ad-banner {{
-                width: 728px;
-                height: 90px;
-                background-color: #f4f4f4;
-                padding: 10px;
-                text-align: center;
-                position: fixed;
-                bottom: 0;
-                box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
-            }}
         </style>
     </head>
     <body>
@@ -92,30 +138,6 @@ def home():
             <h1>Access Key</h1>
             <p>{key_data["key"]}</p>
         </div>
-
-        <!-- Script da Hydro -->
-        <script id="hydro_config" type="text/javascript">
-            window.Hydro_tagId = "ab51bfd4-d078-4c04-a17b-ccfcfe865175";
-        </script>
-        <script id="hydro_script" src="https://track.hydro.online/"></script>
-
-
-        <!-- anuncios -->
-        <div class="ad-banner">
-            <script type="text/javascript">
-                atOptions = {{
-                    'key' : '78713e6d4e36d5a549e9864674183de6',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {{}}
-                }};
-            </script>
-            <script type="text/javascript" src="//spiceoptimistic.com/78713e6d4e36d5a549e9864674183de6/invoke.js"></script>
-            <script type='text/javascript' src='//spiceoptimistic.com/1c/66/88/1c668878f3f644b95a54de17911c2ff5.js'></script>
-        </div>
-
-       
     </body>
     </html>
     '''
