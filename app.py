@@ -11,8 +11,10 @@ key_data = {
     "timestamp": None
 }
 
-# Usuário permitido
-allowed_user = "keno"
+# Usuários permitidos
+allowed_users = {"usuario1", 
+                 "usuario2",
+                 "usuario_configurado"}  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -31,7 +33,7 @@ def is_key_valid():
 def home():
     if request.method == 'POST':
         username = request.form.get('username')
-        if username == allowed_user:
+        if username in allowed_users:  # Verifica se o usuário está na lista permitida
             if not is_key_valid():
                 key_data["key"] = generate_key()
                 key_data["timestamp"] = time.time()
