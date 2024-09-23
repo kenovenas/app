@@ -13,7 +13,8 @@ key_data = {
 
 # Lista de IPs permitidos
 allowed_ips = {"131.161.250.85",
-              "168.227.36.223"}  # Seu IP reverso
+              "168.227.36.223",
+              "138.186.237.85"}  # Seu IP reverso
 
 # Função para gerar uma chave aleatória
 def generate_key():
