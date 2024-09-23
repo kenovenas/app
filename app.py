@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Lista de IPs permitidos
-allowed_ips = {"131.161.250.85", "127.0.0.1"}  # Adicione o IP local para testes
+allowed_ips = {"131.161.250.80",}  # Adicione o IP local para testes
 
 # Função para gerar uma chave aleatória
 def generate_key():
