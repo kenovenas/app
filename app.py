@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Lista de IPs permitidos
-allowed_ips = {"127.0.0.1"}  # Substitua pelo seu IP reverso correto
+allowed_ips = {"131.161.250.85"}  # Seu IP reverso
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -33,9 +33,13 @@ def is_ip_allowed(ip):
 
 @app.route('/')
 def home():
-    # Obtém o IP do usuário
-    user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    # Obtém o IP do usuário, com verificação de cabeçalhos
+    user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
     
+    # Se houver múltiplos IPs, pegamos o primeiro
+    if ',' in user_ip:
+        user_ip = user_ip.split(',')[0].strip()
+
     # Exibe o IP no console e na página
     print(f"IP do usuário: {user_ip}")  # Log do IP do usuário
     print(f"IPs permitidos: {allowed_ips}")  # Log dos IPs permitidos
