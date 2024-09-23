@@ -13,9 +13,9 @@ key_data = {
 
 # Lista de IPs autorizados
 authorized_ips = [
-    '127.0.0.1',  # Exemplo de IP local para teste
-    '192.168.0.1',  # Exemplo de IP externo, pode adicionar quantos forem necessários
-    # Adicione mais IPs conforme necessário
+    '127.0.0.1',  # IP local para teste
+    '192.168.0.1',  # Exemplo de IP externo, adicione conforme necessário
+    # Adicione mais IPs aqui
 ]
 
 # Função para gerar uma chave aleatória
@@ -39,8 +39,9 @@ def is_ip_authorized():
 
 @app.route('/')
 def home():
-    # Verifica se o IP é autorizado antes de liberar a página com a chave
+    # Verifica se o IP é autorizado antes de liberar qualquer conteúdo
     if not is_ip_authorized():
+        # Se o IP não estiver autorizado, exibe a mensagem de acesso negado
         return '''
         <!DOCTYPE html>
         <html lang="en">
@@ -80,8 +81,8 @@ def home():
         </body>
         </html>
         '''
-
-    # Se o IP for autorizado, verifica se a chave é válida e exibe a página
+    
+    # Se o IP for autorizado, verifica se a chave é válida e exibe a página com a chave
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
