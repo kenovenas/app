@@ -88,7 +88,10 @@ def home():
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
-    
+
+    # Mensagem de depuração para verificar se a chave foi gerada
+    print(f"Chave gerada: {key_data['key']}")  # Debug
+
     return f'''
     <!DOCTYPE html>
     <html lang="en">
