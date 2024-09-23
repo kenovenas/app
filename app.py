@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Lista de IPs permitidos
-allowed_ips = {"131.161.250.85",}  # Adicione o IP local para testes
+allowed_ips = {"131.161.250.85"}  # Substitua pelo seu IP reverso correto
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -33,11 +33,14 @@ def is_ip_allowed(ip):
 
 @app.route('/')
 def home():
-    # Obtém o IP do usuário de forma mais robusta
+    # Obtém o IP do usuário
     user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-
+    
+    # Exibe o IP no console e na página
     print(f"IP do usuário: {user_ip}")  # Log do IP do usuário
+    print(f"IPs permitidos: {allowed_ips}")  # Log dos IPs permitidos
 
+    # Mostra o IP no navegador para verificação
     if not is_ip_allowed(user_ip):
         return f'''
         <!DOCTYPE html>
@@ -70,6 +73,7 @@ def home():
             <h1>Acesso Negado</h1>
             <p>Entre em contato</p>
             <a href="https://t.me/Keno_venas" class="button">Keno Venas</a>
+            <p>Seu IP: {user_ip}</p>
         </body>
         </html>
         '''
