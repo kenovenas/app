@@ -13,7 +13,7 @@ key_data = {
 
 # Lista de IPs autorizados
 authorized_ips = [
-    '131.161.250.80',  # Adicione aqui os IPs autorizados
+    '131.161.250.85',  # Adicione aqui os IPs autorizados
     # Adicione mais IPs aqui, se necessário
 ]
 
