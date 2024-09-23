@@ -34,6 +34,10 @@ def is_ip_allowed(ip):
 @app.route('/')
 def home():
     user_ip = request.remote_addr  # Obtém o IP do usuário
+    # Se o servidor estiver por trás de um proxy, use o seguinte
+    # user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+
+    print(f"IP do usuário: {user_ip}")  # Log do IP do usuário
 
     if not is_ip_allowed(user_ip):
         return f'''
@@ -74,7 +78,7 @@ def home():
     if not is_key_valid():
         key_data["key"] = generate_key()
         key_data["timestamp"] = time.time()
-        
+
     return f'''
     <!DOCTYPE html>
     <html lang="en">
