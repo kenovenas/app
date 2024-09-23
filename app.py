@@ -12,7 +12,7 @@ key_data = {
 }
 
 # Lista de IPs permitidos
-allowed_ips = {"131.161.250.85"}
+allowed_ips = {"131.161.250.85", "127.0.0.1"}  # Adicione o IP local para testes
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -33,9 +33,8 @@ def is_ip_allowed(ip):
 
 @app.route('/')
 def home():
-    user_ip = request.remote_addr  # Obtém o IP do usuário
-    # Se o servidor estiver por trás de um proxy, use o seguinte
-    # user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    # Obtém o IP do usuário de forma mais robusta
+    user_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
     print(f"IP do usuário: {user_ip}")  # Log do IP do usuário
 
