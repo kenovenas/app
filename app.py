@@ -34,6 +34,7 @@ def is_key_valid():
 # Função para verificar se o IP do cliente tem permissão de acesso
 def is_ip_authorized():
     client_ip = request.remote_addr  # Obtém o IP do cliente
+    print(f"Client IP: {client_ip}")  # Debug para verificar qual IP está sendo capturado
     return client_ip in authorized_ips
 
 @app.route('/')
