@@ -12,8 +12,8 @@ key_data = {
 }
 
 # Usuários permitidos
-allowed_users = {"usuario1", 
-                 "usuario2",
+allowed_users = {"jygdehxsjiljdkx", 
+                 "ytdeyxgshjoi",
                  "usuario_configurado"}  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
