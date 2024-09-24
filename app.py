@@ -20,7 +20,11 @@ allowed_users = {"pstfr",
                 "cslxnd",
                 "wlsn",
                 "edrd",
-                "vttb"}  # Adicione os usuários permitidos aqui
+                "vttb",
+                "tmmz",
+                "wltr",
+                 "crtntt"
+                }  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
 def generate_key():
