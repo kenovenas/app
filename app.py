@@ -20,8 +20,8 @@ allowed_users = {
 }
 
 # Dados do administrador
-admin_username = "keno"  # Nome de usuário do administrador
-admin_password = "hellen"  # Senha do administrador
+admin_username = "admin"  # Nome de usuário do administrador
+admin_password = "senha"  # Senha do administrador
 
 # Decorador para proteger rotas administrativas
 def admin_required(f):
@@ -116,6 +116,16 @@ def home():
                         text-decoration: none;
                         font-weight: bold;
                     }}
+                    .admin-panel {{
+                        position: fixed;
+                        bottom: 10px;
+                        left: 10px;
+                        background-color: #f0f0f0;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                    }}
                 </style>
             </head>
             <body>
@@ -128,6 +138,14 @@ def home():
                     <p>Chave: {key_data["key"]}</p>
                     <p>Você já acessou {user_data["visits"]} de {user_data["max_visits"]} vezes.</p>
                     <p>Restam {remaining_accesses} acessos.</p>
+                </div>
+                <div class="admin-panel">
+                    <h3>Painel Admin</h3>
+                    <form action="/admin_login" method="post">
+                        <input type="text" name="username" placeholder="Usuário" required>
+                        <input type="password" name="password" placeholder="Senha" required>
+                        <button type="submit">Login Admin</button>
+                    </form>
                 </div>
             </body>
             </html>
@@ -187,10 +205,12 @@ def admin_panel():
     </head>
     <body>
         <h1>Painel Administrativo</h1>
-        <form action="/reset_access" method="post">
+        <form action="/update_users" method="post">
             <label for="username">Usuário:</label>
             <input type="text" name="username" required>
-            <button type="submit">Resetar Acessos</button>
+            <label for="max_visits">Max Acessos:</label>
+            <input type="number" name="max_visits" required>
+            <button type="submit">Salvar</button>
         </form>
         <a href="/logout">Sair</a>
     </body>
@@ -232,23 +252,18 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('admin_login'))
 
-@app.route('/reset_access', methods=['POST'])
+@app.route('/update_users', methods=['POST'])
 @admin_required
-def reset_access():
+def update_users():
     username = request.form['username']
+    max_visits = int(request.form['max_visits'])
+    
     if username in allowed_users:
-        allowed_users[username]['visits'] = 0  # Reseta o contador de acessos para 0
-        return jsonify({"message": f"Os acessos do usuário {username} foram resetados."}), 200
+        allowed_users[username]['max_visits'] = max_visits
     else:
-        return jsonify({"error": "Usuário não encontrado."}), 404
-
-@app.route('/validate', methods=['POST'])
-def validate_key():
-    data = request.get_json()
-    if 'key' in data:
-        if data['key'] == key_data['key'] and is_key_valid():
-            return jsonify({"valid": True}), 200
-    return jsonify({"valid": False}), 401
+        allowed_users[username] = {"visits": 0, "max_visits": max_visits}
+    
+    return redirect(url_for('admin_panel'))
 
 if __name__ == '__main__':
     app.run(debug=True)
