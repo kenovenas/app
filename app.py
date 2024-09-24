@@ -1,10 +1,28 @@
 from flask import Flask, request, jsonify, render_template_string, redirect, url_for, session
 import secrets
 import time
+import json
 from functools import wraps
+import os
 
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta_aqui'  # Defina uma chave secreta para sessões
+
+# Nome do arquivo onde os dados dos usuários serão armazenados
+USERS_FILE = 'users.json'
+
+# Carregar os dados dos usuários a partir do arquivo JSON
+def load_users():
+    if not os.path.exists(USERS_FILE):
+        with open(USERS_FILE, 'w') as f:
+            json.dump({}, f)  # Cria um arquivo vazio se não existir
+    with open(USERS_FILE, 'r') as f:
+        return json.load(f)
+
+# Salvar os dados dos usuários no arquivo JSON
+def save_users(users):
+    with open(USERS_FILE, 'w') as f:
+        json.dump(users, f)
 
 # Armazenamento para chave, timestamp e usuários permitidos
 key_data = {
@@ -12,12 +30,8 @@ key_data = {
     "timestamp": None
 }
 
-# Usuários permitidos e contagem de acessos
-allowed_users = {
-    "usuario1": {"visits": 0, "max_visits": 5},
-    "usuario2": {"visits": 0, "max_visits": 3},
-    "usuario_configurado": {"visits": 0, "max_visits": 10}
-}
+# Carregar os dados dos usuários
+allowed_users = load_users()
 
 # Dados do administrador
 admin_username = "admin"  # Nome de usuário do administrador
@@ -68,6 +82,8 @@ def home():
                 ''')
 
             user_data["visits"] += 1
+            save_users(allowed_users)  # Salva as alterações no arquivo JSON
+            
             remaining_accesses = user_data["max_visits"] - user_data["visits"]
             
             if not is_key_valid():
@@ -212,58 +228,45 @@ def admin_panel():
             <input type="number" name="max_visits" required>
             <button type="submit">Salvar</button>
         </form>
-        <a href="/logout">Sair</a>
+        <h2>Usuários Existentes</h2>
+        <ul>
+            {% for user in users %}
+                <li>{{ user }} - Visitas: {{ users[user].visits }} / Máx. Acessos: {{ users[user].max_visits }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/logout">Logout</a>
     </body>
     </html>
-    ''')
+    ''', users=allowed_users)
 
-@app.route('/admin_login', methods=['GET', 'POST'])
+@app.route('/admin_login', methods=['POST'])
 def admin_login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if username == admin_username and password == admin_password:
-            session['admin_logged_in'] = True
-            return redirect(url_for('admin_panel'))
-        else:
-            return "Login inválido!"
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-    return '''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Administrativo</title>
-    </head>
-    <body>
-        <h1>Login Administrativo</h1>
-        <form method="POST">
-            <input type="text" name="username" placeholder="Usuário" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
-    </body>
-    </html>
-    '''
+    if username == admin_username and password == admin_password:
+        session['admin_logged_in'] = True
+        return redirect(url_for('admin_panel'))
 
-@app.route('/logout')
-def logout():
-    session.pop('admin_logged_in', None)
-    return redirect(url_for('admin_login'))
+    return "Login falhou!"
 
 @app.route('/update_users', methods=['POST'])
 @admin_required
 def update_users():
-    username = request.form['username']
-    max_visits = int(request.form['max_visits'])
-    
-    if username in allowed_users:
-        allowed_users[username]['max_visits'] = max_visits
-    else:
-        allowed_users[username] = {"visits": 0, "max_visits": max_visits}
+    username = request.form.get('username')
+    max_visits = int(request.form.get('max_visits'))
+
+    # Atualiza ou adiciona o usuário
+    allowed_users[username] = {"visits": 0, "max_visits": max_visits}
+    save_users(allowed_users)  # Salva as alterações no arquivo JSON
 
     return redirect(url_for('admin_panel'))
+
+@app.route('/logout')
+@admin_required
+def logout():
+    session.pop('admin_logged_in', None)
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
