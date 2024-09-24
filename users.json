@@ -1,0 +1,10 @@
+{
+    "admin": {
+        "visits": 0,
+        "max_visits": 5
+    },
+    "usuario1": {
+        "visits": 0,
+        "max_visits": 5
+    }
+}
