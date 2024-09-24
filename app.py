@@ -27,7 +27,8 @@ allowed_users = {"pstfr",
                  "wndrsn",
                  "rcrd",
                  "ndrtx",
-                 "vttbt"
+                 "vttbt",
+                 "mrn"
                 }  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
