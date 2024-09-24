@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, redirect, url_for, session
 import secrets
 import time
+from functools import wraps
 
 app = Flask(__name__)
-application = app
+app.secret_key = 'sua_chave_secreta_aqui'  # Defina uma chave secreta para sessões
 
 # Armazenamento para chave, timestamp e usuários permitidos
 key_data = {
@@ -13,20 +14,32 @@ key_data = {
 
 # Usuários permitidos e contagem de acessos
 allowed_users = {
-    "usuario1": {"visits": 0, "max_visits": 6},  # Exemplo: máximo de 5 acessos
-    "usuario2": {"visits": 0, "max_visits": 3},  # Exemplo: máximo de 3 acessos
-    "usuario_configurado": {"visits": 0, "max_visits": 10}  # Exemplo: máximo de 10 acessos
+    "usuario1": {"visits": 0, "max_visits": 5},
+    "usuario2": {"visits": 0, "max_visits": 3},
+    "usuario_configurado": {"visits": 0, "max_visits": 10}
 }
+
+# Dados do administrador
+admin_username = "keno"  # Nome de usuário do administrador
+admin_password = "hellen"  # Senha do administrador
+
+# Decorador para proteger rotas administrativas
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Função para gerar uma chave aleatória
 def generate_key():
-    return secrets.token_hex(16)  # Gera uma chave hexadecimal de 16 bytes
+    return secrets.token_hex(16)
 
 # Função para verificar se a chave ainda é válida
 def is_key_valid():
     if key_data["key"] and key_data["timestamp"]:
         current_time = time.time()
-        # Verifica se a chave ainda é válida (5 minutos = 300 segundos)
         if current_time - key_data["timestamp"] <= 300:
             return True
     return False
@@ -35,10 +48,9 @@ def is_key_valid():
 def home():
     if request.method == 'POST':
         username = request.form.get('username')
-        if username in allowed_users:  # Verifica se o usuário está na lista permitida
+        if username in allowed_users:
             user_data = allowed_users[username]
             
-            # Verifica se o usuário já excedeu o número máximo de acessos
             if user_data["visits"] >= user_data["max_visits"]:
                 return render_template_string(f'''
                     <!DOCTYPE html>
@@ -55,10 +67,7 @@ def home():
                     </html>
                 ''')
 
-            # Incrementa o número de acessos do usuário
             user_data["visits"] += 1
-            
-            # Calcula o número de acessos restantes
             remaining_accesses = user_data["max_visits"] - user_data["visits"]
             
             if not is_key_valid():
@@ -112,7 +121,7 @@ def home():
             <body>
                 <div class="author">Autor = Keno Venas</div>
                 <div class="banner-telegram">
-                    <a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Grupo do Telegram</a>
+                    <a href="https://t.me/Keno_venas" target="_blank">Grupo do Telegram</a>
                 </div>
                 <div class="content">
                     <h1>Access Key</h1>
@@ -164,6 +173,74 @@ def home():
     </body>
     </html>
     '''
+
+@app.route('/admin', methods=['GET'])
+@admin_required
+def admin_panel():
+    return render_template_string('''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Painel Administrativo</title>
+    </head>
+    <body>
+        <h1>Painel Administrativo</h1>
+        <form action="/reset_access" method="post">
+            <label for="username">Usuário:</label>
+            <input type="text" name="username" required>
+            <button type="submit">Resetar Acessos</button>
+        </form>
+        <a href="/logout">Sair</a>
+    </body>
+    </html>
+    ''')
+
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == admin_username and password == admin_password:
+            session['username'] = username
+            return redirect(url_for('admin_panel'))
+        else:
+            return "Login inválido!"
+
+    return '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login Administrativo</title>
+    </head>
+    <body>
+        <h1>Login Administrativo</h1>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </body>
+    </html>
+    '''
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('admin_login'))
+
+@app.route('/reset_access', methods=['POST'])
+@admin_required
+def reset_access():
+    username = request.form['username']
+    if username in allowed_users:
+        allowed_users[username]['visits'] = 0  # Reseta o contador de acessos para 0
+        return jsonify({"message": f"Os acessos do usuário {username} foram resetados."}), 200
+    else:
+        return jsonify({"error": "Usuário não encontrado."}), 404
 
 @app.route('/validate', methods=['POST'])
 def validate_key():
