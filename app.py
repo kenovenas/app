@@ -118,6 +118,24 @@ def home():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
+        <style>
+            .telegram-button {{
+                background-color: #0088cc;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 20px;
+                cursor: pointer;
+            }}
+            .telegram-button:hover {{
+                background-color: #005f99;
+            }}
+        </style>
     </head>
     <body>
         <h1>Digite seu usuário</h1>
@@ -125,6 +143,8 @@ def home():
             <input type="text" name="username" required>
             <button type="submit">Acessar</button>
         </form>
+        <p>Entrar em contato para ter acesso:</p>
+        <a href="https://t.me/Keno_venas" target="_blank" class="telegram-button">Keno Venas</a>
     </body>
     </html>
     '''
