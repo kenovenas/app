@@ -58,6 +58,9 @@ def home():
             # Incrementa o número de acessos do usuário
             user_data["visits"] += 1
             
+            # Calcula o número de acessos restantes
+            remaining_accesses = user_data["max_visits"] - user_data["visits"]
+            
             if not is_key_valid():
                 key_data["key"] = generate_key()
                 key_data["timestamp"] = time.time()
@@ -113,8 +116,9 @@ def home():
                 </div>
                 <div class="content">
                     <h1>Access Key</h1>
-                    <p>{key_data["key"]}</p>
+                    <p>Chave: {key_data["key"]}</p>
                     <p>Você já acessou {user_data["visits"]} de {user_data["max_visits"]} vezes.</p>
+                    <p>Restam {remaining_accesses} acessos.</p>
                 </div>
             </body>
             </html>
