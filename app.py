@@ -38,6 +38,10 @@ def admin_login():
                     Máximo de Acessos: <input type="number" name="max_visits" required>
                     <button type="submit">Adicionar Usuário</button>
                 </form>
+                <br>
+                <form method="POST" action="/view_users">
+                    <button type="submit">Ver Usuários</button>
+                </form>
             ''')
     return render_template_string('''
         <h1>Login do Administrador</h1>
@@ -86,6 +90,15 @@ def home():
             <button type="submit">Obter Chave</button>
         </form>
     '''
+
+# Rota para ver usuários
+@app.route('/view_users', methods=['POST'])
+def view_users():
+    user_list = '<h1>Usuários Cadastrados</h1><ul>'
+    for username, details in users.items():
+        user_list += f'<li>{username}: {details["max_visits"]} acessos máximos, {details["visits"]} acessos utilizados</li>'
+    user_list += '</ul><a href="/admin_login">Voltar</a>'
+    return user_list
 
 if __name__ == '__main__':
     app.run(debug=True)
