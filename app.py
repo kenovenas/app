@@ -27,7 +27,7 @@ admin_password = "senha"  # Senha do administrador
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'username' not in session:
+        if 'admin_logged_in' not in session:
             return redirect(url_for('admin_login'))
         return f(*args, **kwargs)
     return decorated_function
@@ -223,7 +223,7 @@ def admin_login():
         username = request.form['username']
         password = request.form['password']
         if username == admin_username and password == admin_password:
-            session['username'] = username
+            session['admin_logged_in'] = True
             return redirect(url_for('admin_panel'))
         else:
             return "Login inválido!"
@@ -249,7 +249,7 @@ def admin_login():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.pop('admin_logged_in', None)
     return redirect(url_for('admin_login'))
 
 @app.route('/update_users', methods=['POST'])
@@ -262,7 +262,7 @@ def update_users():
         allowed_users[username]['max_visits'] = max_visits
     else:
         allowed_users[username] = {"visits": 0, "max_visits": max_visits}
-    
+
     return redirect(url_for('admin_panel'))
 
 if __name__ == '__main__':
