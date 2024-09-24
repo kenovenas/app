@@ -4,6 +4,7 @@ import json
 import os
 
 app = Flask(__name__)
+application = app
 
 # Nome do arquivo JSON onde os usuários são armazenados
 USERS_FILE = 'users.json'
@@ -37,7 +38,6 @@ def admin_login():
                     Máximo de Acessos: <input type="number" name="max_visits" required>
                     <button type="submit">Adicionar Usuário</button>
                 </form>
-                <a href="/">Voltar para o Início</a>
             ''')
     return render_template_string('''
         <h1>Login do Administrador</h1>
@@ -81,12 +81,10 @@ def home():
         return "Usuário não encontrado!", 404
 
     return '''
-        <h1>Obtenha sua Chave</h1>
         <form method="POST">
             Insira o nome de usuário: <input type="text" name="username" required>
             <button type="submit">Obter Chave</button>
         </form>
-        <a href="/admin_login">Acessar Painel de Administração</a>
     '''
 
 if __name__ == '__main__':
