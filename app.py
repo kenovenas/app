@@ -1,56 +1,46 @@
-from flask import Flask, request, jsonify, redirect, url_for, session, render_template_string
+from flask import Flask, request, jsonify, render_template_string
 import secrets
 import time
 import json
-import os
 
 app = Flask(__name__)
-app.secret_key = 'sua_chave_secreta'  # Defina uma chave secreta para sessões
+application = app
 
-# Armazenamento de dados de usuários
-users_file = 'users.json'
+# Caminho para o arquivo JSON que armazena os dados dos usuários
+USERS_FILE = 'users.json'
 
-# Carrega os usuários do arquivo JSON
+# Função para carregar os dados dos usuários do arquivo JSON
 def load_users():
-    if os.path.exists(users_file):
-        with open(users_file, 'r') as f:
-            return json.load(f)
-    return {}
+    try:
+        with open(USERS_FILE, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
 
-# Salva os usuários no arquivo JSON
+# Função para salvar os dados dos usuários no arquivo JSON
 def save_users(users):
-    with open(users_file, 'w') as f:
-        json.dump(users, f)
-
-# Dados de exemplo
-allowed_users = load_users()
-admin_username = "admin"
-admin_password = "admin123"
+    with open(USERS_FILE, 'w') as file:
+        json.dump(users, file, indent=4)
 
 # Função para gerar uma chave aleatória
 def generate_key():
     return secrets.token_hex(16)  # Gera uma chave hexadecimal de 16 bytes
 
-# Função para verificar se a chave ainda é válida
-def is_key_valid(username):
-    if username in allowed_users:
-        user_data = allowed_users[username]
-        current_time = time.time()
-        # Verifica se o usuário ainda tem acessos disponíveis
-        if user_data['visits'] < user_data['max_visits']:
-            return True
-    return False
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        if username in allowed_users and is_key_valid(username):
-            # Aumenta o contador de acessos
-            allowed_users[username]['visits'] += 1
-            save_users(allowed_users)  # Salva as alterações no arquivo JSON
-            key = generate_key()
-            return f'''
+    username = request.args.get('username')
+    users = load_users()
+    
+    if username in users:
+        user_data = users[username]
+        # Checa se o usuário ainda tem acessos disponíveis
+        if user_data['visits'] < user_data['max_visits']:
+            # Incrementa o número de acessos do usuário
+            user_data['visits'] += 1
+            save_users(users)  # Salva as alterações
+            access_key = generate_key()
+            remaining_access = user_data['max_visits'] - user_data['visits']
+            return render_template_string('''
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -60,107 +50,57 @@ def home():
             </head>
             <body>
                 <h1>Access Key</h1>
-                <p>{key}</p>
+                <p>Chave: {{ key }}</p>
+                <p>Acessos restantes: {{ remaining_access }}</p>
             </body>
             </html>
-            '''
-        return "Acesso negado!"
-    
-    return '''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-    </head>
-    <body>
-        <h1>Login</h1>
-        <form method="post">
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" name="username" required>
-            <button type="submit">Obter Chave</button>
-        </form>
-        <p>Entre em contato para ter acesso: <a href="https://t.me/Keno_venas">Keno Venas</a></p>
-    </body>
-    </html>
-    '''
-
-@app.route('/admin', methods=['GET', 'POST'])
-def admin_panel():
-    if 'admin_logged_in' not in session:
-        return redirect(url_for('admin_login_page'))
-
-    if request.method == 'POST':
-        username = request.form.get('username')
-        max_visits = int(request.form.get('max_visits'))
-        # Atualiza ou adiciona o usuário
-        allowed_users[username] = {"visits": 0, "max_visits": max_visits}
-        save_users(allowed_users)  # Salva as alterações no arquivo JSON
-        return redirect(url_for('admin_panel'))
-
-    return render_template_string('''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Painel de Administração</title>
-    </head>
-    <body>
-        <h1>Painel de Administração</h1>
-        <h2>Usuários</h2>
-        <ul>
-        {% for user, data in users.items() %}
-            <li>{{ user }} - Acessos: {{ data.visits }} / Máximo: {{ data.max_visits }}</li>
-        {% endfor %}
-        </ul>
-        <h2>Adicionar ou Editar Usuário</h2>
-        <form method="post">
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="max_visits">Máximo de Acessos:</label>
-            <input type="number" id="max_visits" name="max_visits" required>
-            <button type="submit">Salvar</button>
-        </form>
-        <a href="/logout">Logout</a>
-    </body>
-    </html>
-    ''', users=allowed_users)
+            ''', key=access_key, remaining_access=remaining_access)
+        else:
+            return "Acesso negado: número máximo de acessos atingido."
+    else:
+        return "Acesso negado: usuário não encontrado."
 
 @app.route('/admin_login', methods=['GET', 'POST'])
-def admin_login_page():
+def admin_login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        if username == admin_username and password == admin_password:
-            session['admin_logged_in'] = True
-            return redirect(url_for('admin_panel'))
-        return "Login falhou!"
+        # Logica de autenticação do admin (simplificada)
+        if request.form['username'] == 'admin' and request.form['password'] == 'admin':
+            return render_template_string('''
+            <h1>Painel de Administração</h1>
+            <form method="POST" action="/add_user">
+                <h2>Adicionar Usuário</h2>
+                <input type="text" name="username" placeholder="Nome do Usuário" required>
+                <input type="number" name="max_visits" placeholder="Máximo de Acessos" required>
+                <button type="submit">Adicionar Usuário</button>
+            </form>
+            ''')
+        else:
+            return "Login inválido"
     
-    return '''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Login Administrador</title>
-    </head>
-    <body>
-        <h1>Login Administrador</h1>
-        <form method="post">
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Senha:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
-        </form>
-    </body>
-    </html>
-    '''
+    return render_template_string('''
+    <form method="POST">
+        <input type="text" name="username" placeholder="Usuário" required>
+        <input type="password" name="password" placeholder="Senha" required>
+        <button type="submit">Login</button>
+    </form>
+    ''')
 
-@app.route('/logout')
-def logout():
-    session.pop('admin_logged_in', None)
-    return redirect(url_for('home'))
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    username = request.form['username']
+    max_visits = int(request.form['max_visits'])
+    users = load_users()
+    
+    # Verifica se o usuário já existe
+    if username not in users:
+        users[username] = {
+            "visits": 0,
+            "max_visits": max_visits
+        }
+        save_users(users)
+        return "Usuário adicionado com sucesso!"
+    else:
+        return "Usuário já existe."
 
 if __name__ == '__main__':
     app.run(debug=True)
