@@ -13,7 +13,7 @@ key_data = {
 
 # Usuários permitidos e contagem de acessos
 allowed_users = {
-    "usuario1": {"visits": 0, "max_visits": 1},  # Exemplo: máximo de 5 acessos
+    "usuario1": {"visits": 0, "max_visits": 5},  # Exemplo: máximo de 5 acessos
     "usuario2": {"visits": 0, "max_visits": 3},  # Exemplo: máximo de 3 acessos
     "usuario_configurado": {"visits": 0, "max_visits": 10}  # Exemplo: máximo de 10 acessos
 }
