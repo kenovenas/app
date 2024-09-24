@@ -3,6 +3,10 @@
         "visits": 0,
         "max_visits": 5
     },
+     "usuario3": {
+        "visits": 0,
+        "max_visits": 5
+    },
     "usuario2": {
         "visits": 0,
         "max_visits": 3
