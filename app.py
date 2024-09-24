@@ -11,16 +11,12 @@ key_data = {
     "timestamp": None
 }
 
-# Usuários permitidos
-allowed_users = {"pstfr", 
-                 "emda",
-                 "wndrsn",
-                "thglm",
-                "emrsnc",
-                "cslxnd",
-                "wlsn",
-                "edrd",
-                "vttb"}  # Adicione os usuários permitidos aqui
+# Usuários permitidos e contagem de acessos
+allowed_users = {
+    "usuario1": {"visits": 0, "max_visits": 1},  # Exemplo: máximo de 5 acessos
+    "usuario2": {"visits": 0, "max_visits": 3},  # Exemplo: máximo de 3 acessos
+    "usuario_configurado": {"visits": 0, "max_visits": 10}  # Exemplo: máximo de 10 acessos
+}
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -40,9 +36,32 @@ def home():
     if request.method == 'POST':
         username = request.form.get('username')
         if username in allowed_users:  # Verifica se o usuário está na lista permitida
+            user_data = allowed_users[username]
+            
+            # Verifica se o usuário já excedeu o número máximo de acessos
+            if user_data["visits"] >= user_data["max_visits"]:
+                return render_template_string(f'''
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Acesso Negado</title>
+                    </head>
+                    <body>
+                        <h1>Acesso Negado</h1>
+                        <p>Você atingiu o limite máximo de acessos.</p>
+                    </body>
+                    </html>
+                ''')
+
+            # Incrementa o número de acessos do usuário
+            user_data["visits"] += 1
+            
             if not is_key_valid():
                 key_data["key"] = generate_key()
                 key_data["timestamp"] = time.time()
+                
             return render_template_string(f'''
             <!DOCTYPE html>
             <html lang="en">
@@ -85,16 +104,6 @@ def home():
                         text-decoration: none;
                         font-weight: bold;
                     }}
-                    .ad-banner {{
-                        width: 728px;
-                        height: 90px;
-                        background-color: #f4f4f4;
-                        padding: 10px;
-                        text-align: center;
-                        position: fixed;
-                        bottom: 0;
-                        box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
-                    }}
                 </style>
             </head>
             <body>
@@ -105,10 +114,12 @@ def home():
                 <div class="content">
                     <h1>Access Key</h1>
                     <p>{key_data["key"]}</p>
+                    <p>Você já acessou {user_data["visits"]} de {user_data["max_visits"]} vezes.</p>
                 </div>
             </body>
             </html>
             ''')
+
         else:
             return "Acesso negado"
 
