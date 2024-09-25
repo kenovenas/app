@@ -34,7 +34,7 @@ allowed_users = {"pstfr",
                  "wbss",
                  "zr1",
                  "nbsbt",
-                 "viadinho"
+                 
                 }  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
