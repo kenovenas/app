@@ -36,7 +36,8 @@ allowed_users = {"pstfr",
                  "nbsbt",
                  "mxchk",
                  "pdrrm",
-                 "hll"
+                 "hll",
+                 "mro"
                  
                 }  # Adicione os usuários permitidos aqui
 
