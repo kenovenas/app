@@ -14,10 +14,37 @@ key_data = {
 
 # Usuários permitidos
 allowed_users = {
-    "pstfr", "emda", "wndrsn", "thglm", "emrsnc", "cslxnd", 
-    "wlsn", "edrd", "vttb", "tmmz", "wltr", "crtntt", 
-    "wndrsn", "rcrd", "ndrtx", "vttbt", "mrn", "rflcr", 
-    "cnt", "wbss", "zr1", "nbsbt"
+   "pstfr", 
+                 "emda",
+                 "wndrsn",
+                "thglm",
+                "emrsnc",
+                "cslxnd",
+                "wlsn",
+                "edrd",
+                "vttb",
+                "tmmz",
+                "wltr",
+                 "crtntt",
+                 "wndrsn",
+                 "rcrd",
+                 "ndrtx",
+                 "vttbt",
+                 "mrn",
+                 "rflcr",
+                 "cnt",
+                 "wbss",
+                 "zr1",
+                 "nbsbt",
+                 "mxchk",
+                 "pdrrm",
+                 "hll",
+                 "mro",
+                 "hmd",
+                 "mrclm",
+                 "mxwll",
+                 "kauan",
+                 "nmmr"
 }  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
