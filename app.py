@@ -63,13 +63,6 @@ def home():
                         border-radius: 10px;
                         color: white;
                     }}
-                    .author {{
-                        position: absolute;
-                        top: 10px;
-                        left: 10px;
-                        color: #000;
-                        font-size: 18px;
-                    }}
                 </style>
             </head>
             <body>
