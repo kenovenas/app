@@ -5,18 +5,14 @@ import time
 app = Flask(__name__)
 application = app
 
-# Armazenamento para chave, timestamp e usuários permitidos
+# Armazenamento para chave e seu timestamp
 key_data = {
     "key": None,
     "timestamp": None
 }
 
-# Usuários permitidos
-allowed_users = {
-    "pstfr", "emda", "wndrsn", "thglm", "emrsnc", "cslxnd", 
-    "wlsn", "edrd", "vttb", "tmmz", "wltr", "crtntt", "rcrd", 
-    "ndrtx", "vttbt", "mrn", "rflcr", "cnt", "wbss", "zr1", "nbsbt"
-}  # Adicione os usuários permitidos aqui
+# Lista de usuários permitidos
+allowed_users = ["user1", "user2", "kenovenas"]
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -31,54 +27,7 @@ def is_key_valid():
             return True
     return False
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        if username in allowed_users:  # Verifica se o usuário está na lista permitida
-            if not is_key_valid():
-                key_data["key"] = generate_key()
-                key_data["timestamp"] = time.time()
-            return render_template_string(f'''
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Access Key</title>
-                <style>
-                    body {{
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                        flex-direction: column;
-                        background-color: #f4f4f4;
-                    }}
-                    .content {{
-                        text-align: center;
-                        background-color: #007bff;
-                        padding: 20px;
-                        border-radius: 10px;
-                        color: white;
-                    }}
-                </style>
-            </head>
-            <body>
-                <div class="content">
-                    <h1>Sua Chave de Acesso</h1>
-                    <p>{key_data["key"]}</p>
-                </div>
-            </body>
-            </html>
-            ''')
-        else:
-            return "Acesso negado"
-
-    # Tela de login com o banner modificado
-    return '''
-   @app.route('/')
+@app.route('/')
 def login():
     return '''
     <!DOCTYPE html>
@@ -167,6 +116,73 @@ def login():
                 <p>Grupo do Telegram:</p>
                 <a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Crypto Faucets</a>
             </div>
+        </div>
+    </body>
+    </html>
+    '''
+
+
+
+# Rota para autenticação
+@app.route('/login', methods=['POST'])
+def authenticate():
+    username = request.form['username']
+    if username in allowed_users:
+        # Redireciona para a página de exibição da chave com o parâmetro logged_in
+        return redirect(url_for('home', logged_in=True))
+    else:
+        return '''
+        <h1>Usuário não autorizado!</h1>
+        <a href="/">Voltar para o login</a>
+        '''
+
+# Rota da página que exibe a chave, acessível apenas após login
+@app.route('/home')
+def home():
+    # Verifica se o parâmetro logged_in está presente na requisição
+    logged_in = request.args.get('logged_in', None)
+    if logged_in != 'True':  # Redireciona para o login se o parâmetro não for encontrado
+        return redirect(url_for('login'))
+
+    if not is_key_valid():
+        key_data["key"] = generate_key()
+        key_data["timestamp"] = time.time()
+
+    return f'''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Access Key</title>
+        <style>
+            body {{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                position: relative;
+                flex-direction: column;
+            }}
+            .content {{
+                text-align: center;
+                margin-top: 20px;
+            }}
+            .author {{
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                color: #000;
+                font-size: 18px;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="author">Autor: Keno Venas</div>
+        <div class="content">
+            <h1>Access Key</h1>
+            <p>{key_data["key"]}</p>
         </div>
     </body>
     </html>
