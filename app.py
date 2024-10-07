@@ -100,6 +100,7 @@ def home():
                 text-align: center;
                 color: white;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                width: 300px;
             }}
             .login-container input[type="text"] {{
                 padding: 10px;
@@ -119,6 +120,7 @@ def home():
                 color: white;
                 font-size: 16px;
                 cursor: pointer;
+                width: 100%;
             }}
             .login-container button:hover {{
                 background-color: #218838;
