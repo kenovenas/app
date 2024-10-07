@@ -78,6 +78,9 @@ def home():
 
     # Tela de login com o banner modificado
     return '''
+   @app.route('/')
+def login():
+    return '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -85,70 +88,85 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <style>
-            body {{
+            body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
                 margin: 0;
-                background-color: #f4f4f4;
-            }}
-            .login-container {{
-                background-color: #007bff;
-                padding: 30px;
-                border-radius: 10px;
+                background-color: #f4f4f9;
+            }
+            .login-container {
                 text-align: center;
-                color: white;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: white;
                 width: 300px;
-            }}
-            .login-container input[type="text"] {{
-                padding: 10px;
-                margin-top: 10px;
-                border: none;
-                border-radius: 5px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .login-container h1 {
+                margin-bottom: 20px;
+            }
+            .login-container form {
+                display: flex;
+                flex-direction: column;
                 width: 100%;
-                box-sizing: border-box;
-                font-size: 16px;
-            }}
-            .login-container button {{
-                margin-top: 15px;
+            }
+            .login-container input {
+                padding: 10px;
+                margin-bottom: 10px;
+                width: 100%;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .login-container button {
                 padding: 10px 20px;
+                background-color: #0088cc;
+                color: white;
                 border: none;
                 border-radius: 5px;
-                background-color: #28a745;
-                color: white;
-                font-size: 16px;
                 cursor: pointer;
                 width: 100%;
-            }}
-            .login-container button:hover {{
-                background-color: #218838;
-            }}
-            .login-container p {{
-                margin-top: 15px;
-                font-size: 14px;
-                color: white;
-            }}
-            .login-container a {{
-                color: #ffc107;
+            }
+            .login-container button:hover {
+                background-color: #005f99;
+            }
+            .contact {
+                margin-top: 20px;
+            }
+            .author-link {
+                color: #0088cc;
                 text-decoration: none;
-            }}
-            .login-container a:hover {{
-                text-decoration: underline;
-            }}
+                font-weight: bold;
+            }
+            .telegram-group {
+                margin-top: 10px;
+            }
+            .telegram-group a {
+                color: #ffcc00;
+                text-decoration: none;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
         <div class="login-container">
-            <h1>Digite seu usuário</h1>
-            <form method="POST">
-                <input type="text" name="username" placeholder="Usuário" required>
-                <button type="submit">Acessar</button>
+            <h1>Login</h1>
+            <form action="/login" method="post">
+                <input type="text" id="username" name="username" placeholder="Usuário" required><br>
+                <button type="submit">Login</button>
             </form>
-            <p>Para ter acesso entre em contato.</p>
-            <p><a href="https://t.me/Keno_venas" target="_blank">Keno Venas</a></p>
-            <p><a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Grupo do Telegram</a></p>
+            <div class="contact">
+                <p>Para acessar entre em contato:</p>
+                <a class="author-link" href="https://t.me/Keno_venas" target="_blank">Keno Venas</a>
+            </div>
+            <div class="telegram-group">
+                <p>Grupo do Telegram:</p>
+                <a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Crypto Faucets</a>
+            </div>
         </div>
     </body>
     </html>
