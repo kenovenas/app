@@ -76,7 +76,7 @@ def home():
         else:
             return "Acesso negado"
 
-    # Tela de login com banner modificado conforme solicitado
+    # Tela de login com o banner modificado
     return '''
     <!DOCTYPE html>
     <html lang="en">
