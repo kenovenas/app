@@ -42,7 +42,8 @@ allowed_users = ["pstfr",
                  "hmd",
                  "mrclm",
                  "mxwll",
-                 "kauan"]
+                 "kauan"
+                ]
 
 # Função para gerar uma chave aleatória
 def generate_key():
