@@ -12,38 +12,11 @@ key_data = {
 }
 
 # Usuários permitidos
-allowed_users = {"pstfr", 
-                 "emda",
-                 "wndrsn",
-                "thglm",
-                "emrsnc",
-                "cslxnd",
-                "wlsn",
-                "edrd",
-                "vttb",
-                "tmmz",
-                "wltr",
-                 "crtntt",
-                 "wndrsn",
-                 "rcrd",
-                 "ndrtx",
-                 "vttbt",
-                 "mrn",
-                 "rflcr",
-                 "cnt",
-                 "wbss",
-                 "zr1",
-                 "nbsbt",
-                 "mxchk",
-                 "pdrrm",
-                 "hll",
-                 "mro",
-                 "hmd",
-                 "mrclm",
-                 "mxwll",
-                 "kauan"
-                 
-                }  # Adicione os usuários permitidos aqui
+allowed_users = {
+    "pstfr", "emda", "wndrsn", "thglm", "emrsnc", "cslxnd", 
+    "wlsn", "edrd", "vttb", "tmmz", "wltr", "crtntt", "rcrd", 
+    "ndrtx", "vttbt", "mrn", "rflcr", "cnt", "wbss", "zr1", "nbsbt"
+}  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
 def generate_key():
@@ -80,12 +53,15 @@ def home():
                         align-items: center;
                         height: 100vh;
                         margin: 0;
-                        position: relative;
                         flex-direction: column;
+                        background-color: #f4f4f4;
                     }}
                     .content {{
                         text-align: center;
-                        margin-top: 20px;
+                        background-color: #007bff;
+                        padding: 20px;
+                        border-radius: 10px;
+                        color: white;
                     }}
                     .author {{
                         position: absolute;
@@ -94,39 +70,11 @@ def home():
                         color: #000;
                         font-size: 18px;
                     }}
-                    .banner-telegram {{
-                        position: absolute;
-                        top: 10px;
-                        right: 10px;
-                        background-color: #0088cc;
-                        padding: 10px;
-                        border-radius: 5px;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                    }}
-                    .banner-telegram a {{
-                        color: #ffcc00;
-                        text-decoration: none;
-                        font-weight: bold;
-                    }}
-                    .ad-banner {{
-                        width: 728px;
-                        height: 90px;
-                        background-color: #f4f4f4;
-                        padding: 10px;
-                        text-align: center;
-                        position: fixed;
-                        bottom: 0;
-                        box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
-                    }}
                 </style>
             </head>
             <body>
-                <div class="author">Autor = Keno Venas</div>
-                <div class="banner-telegram">
-                    <a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Grupo do Telegram</a>
-                </div>
                 <div class="content">
-                    <h1>Access Key</h1>
+                    <h1>Sua Chave de Acesso</h1>
                     <p>{key_data["key"]}</p>
                 </div>
             </body>
@@ -135,6 +83,7 @@ def home():
         else:
             return "Acesso negado"
 
+    # Tela de login com banner modificado conforme solicitado
     return '''
     <!DOCTYPE html>
     <html lang="en">
@@ -153,7 +102,7 @@ def home():
             }}
             .login-container {{
                 background-color: #007bff;
-                padding: 20px;
+                padding: 30px;
                 border-radius: 10px;
                 text-align: center;
                 color: white;
@@ -184,6 +133,7 @@ def home():
             .login-container p {{
                 margin-top: 15px;
                 font-size: 14px;
+                color: white;
             }}
             .login-container a {{
                 color: #ffc107;
