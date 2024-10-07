@@ -34,6 +34,14 @@ allowed_users = {"pstfr",
                  "wbss",
                  "zr1",
                  "nbsbt",
+                 "mxchk",
+                 "pdrrm",
+                 "hll",
+                 "mro",
+                 "hmd",
+                 "mrclm",
+                 "mxwll",
+                 "kauan"
                  
                 }  # Adicione os usuários permitidos aqui
 
@@ -135,32 +143,68 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <style>
-            .telegram-button {{
-                background-color: #0088cc;
+            body {{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f4f4f4;
+            }}
+            .login-container {{
+                background-color: #007bff;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
                 color: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }}
+            .login-container input[type="text"] {{
+                padding: 10px;
+                margin-top: 10px;
+                border: none;
+                border-radius: 5px;
+                width: 100%;
+                box-sizing: border-box;
+                font-size: 16px;
+            }}
+            .login-container button {{
+                margin-top: 15px;
                 padding: 10px 20px;
                 border: none;
                 border-radius: 5px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
+                background-color: #28a745;
+                color: white;
                 font-size: 16px;
-                margin-top: 20px;
                 cursor: pointer;
             }}
-            .telegram-button:hover {{
-                background-color: #005f99;
+            .login-container button:hover {{
+                background-color: #218838;
+            }}
+            .login-container p {{
+                margin-top: 15px;
+                font-size: 14px;
+            }}
+            .login-container a {{
+                color: #ffc107;
+                text-decoration: none;
+            }}
+            .login-container a:hover {{
+                text-decoration: underline;
             }}
         </style>
     </head>
     <body>
-        <h1>Digite seu usuário</h1>
-        <form method="POST">
-            <input type="text" name="username" required>
-            <button type="submit">Acessar</button>
-        </form>
-        <p>Entrar em contato para ter acesso:</p>
-        <a href="https://t.me/Keno_venas" target="_blank" class="telegram-button">Keno Venas</a>
+        <div class="login-container">
+            <h1>Digite seu usuário</h1>
+            <form method="POST">
+                <input type="text" name="username" placeholder="Usuário" required>
+                <button type="submit">Acessar</button>
+            </form>
+            <p>Para ter acesso entre em contato.</p>
+            <p><a href="https://t.me/Keno_venas" target="_blank">Keno Venas</a></p>
+            <p><a href="https://t.me/+Mns6IsONSxliZDkx" target="_blank">Grupo do Telegram</a></p>
+        </div>
     </body>
     </html>
     '''
