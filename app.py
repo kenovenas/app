@@ -44,7 +44,8 @@ allowed_users = {
                  "mrclm",
                  "mxwll",
                  "kauan",
-                 "nmmr"
+                 "nmmr",
+    "skhgh"
 }  # Adicione os usuários permitidos aqui
 
 # Função para gerar uma chave aleatória
