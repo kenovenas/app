@@ -45,6 +45,7 @@ allowed_users = {
                  "mxwll",
                  "kauan",
                  "nmmr",
+    "mts",
     
 }  # Adicione os usuários permitidos aqui
 
