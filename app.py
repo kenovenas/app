@@ -47,6 +47,7 @@ allowed_users = {
                  "nmmr",
     "mts",
     "jncmps",
+    "dnln",
     
 }  # Adicione os usuários permitidos aqui
 
