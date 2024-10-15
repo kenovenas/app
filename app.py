@@ -148,7 +148,7 @@ def login():
             </form>
             <div class="contact">
                 <p>Para acessar entre em contato:</p>
-                <a class="author-link" href="https://t.me/Keno_venas" target="_blank">Keno Venas</a>
+                <a class="author-link" href="https://t.me/keno_venas_off" target="_blank">Keno Venas</a>
             </div>
             <div class="telegram-group">
                 <p>Grupo do Telegram:</p>
