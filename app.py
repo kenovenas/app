@@ -14,15 +14,7 @@ key_data = {
 
 # Usuários permitidos
 allowed_users = {
-   "pstfr", 
-                 "emda",
-                 "wndrsn",
-                "thglm",
-                "emrsnc",
-                "cslxnd",
-                "wlsn",
-                "edrd",
-                "vttb",
+    "fiel",
                 "tmmz",
                 "wltr",
                  "crtntt",
