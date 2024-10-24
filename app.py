@@ -19,7 +19,6 @@ allowed_users = {
                  "ok3286",
                  "ok1390",
                  "zr1",
-                 "nbsbt",
                  "mxchk",
                  "pdrrm",
                  "hll",
