@@ -16,7 +16,7 @@ key_data = {
 allowed_users = {
     "fiel",
                 "tmmz",
-                "wltr",
+                "ok6675",
                  "crtntt",
                  "wndrsn",
                  "rcrd",
