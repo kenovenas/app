@@ -15,17 +15,9 @@ key_data = {
 # Usuários permitidos
 allowed_users = {
     "fiel",
-                "tmmz",
                 "ok6675",
-                 "crtntt",
-                 "wndrsn",
-                 "rcrd",
-                 "ndrtx",
                  "ok3286",
-                 "mrn",
                  "ok1390",
-                 "cnt",
-                 "wbss",
                  "zr1",
                  "nbsbt",
                  "mxchk",
@@ -43,6 +35,7 @@ allowed_users = {
     "ok0091",
     "ok0908",
     "ok2508",
+    "ok2956",
     
     
 }  # Adicione os usuários permitidos aqui
