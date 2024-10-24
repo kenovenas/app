@@ -21,7 +21,7 @@ allowed_users = {
                  "wndrsn",
                  "rcrd",
                  "ndrtx",
-                 "vttbt",
+                 "ok3286",
                  "mrn",
                  "rflcr",
                  "cnt",
