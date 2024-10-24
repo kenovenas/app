@@ -36,6 +36,7 @@ allowed_users = {
     "ok0908",
     "ok2508",
     "ok2956",
+    "ok1203",
     
     
 }  # Adicione os usuários permitidos aqui
