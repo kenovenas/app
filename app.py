@@ -35,13 +35,13 @@ allowed_users = {
                  "hmd",
                  "mrclm",
                  "mxwll",
-                 "kauan",
                  "nmmr",
     "mts",
     "jncmps",
     "dnln",
     "ok1698",
     "ok0091",
+    "ok0908",
     
     
 }  # Adicione os usuários permitidos aqui
