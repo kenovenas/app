@@ -41,6 +41,7 @@ allowed_users = {
     "jncmps",
     "dnln",
     "ok1698",
+    "ok0091",
     
     
 }  # Adicione os usuários permitidos aqui
