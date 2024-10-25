@@ -21,7 +21,6 @@ allowed_users = {
                  "zr1",
                  "mxchk",
                  "pdrrm",
-                 "hll",
                  "mro",
                  "hmd",
                  "mrclm",
