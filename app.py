@@ -40,6 +40,7 @@ allowed_users = {
     "ok0198",
     "ok1001",
     "ok2090",
+    "admin",
     
     
 }  # Adicione os usuários permitidos aqui
