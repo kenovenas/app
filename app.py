@@ -39,6 +39,7 @@ allowed_users = {
     "ok0198",
     "ok1001",
     "ok2090",
+    "ok0902",
     "admin",
     
     
