@@ -23,6 +23,7 @@ allowed_users = {
                  "mrclm",
                  "mxwll",
                  "nmmr",
+    "nbsbt",
     "mts",
     "jncmps",
     "dnln",
