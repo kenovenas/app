@@ -20,7 +20,6 @@ allowed_users = {
                  "ok1390",
                  "zr1",
                  "mro",
-                 "hmd",
                  "mrclm",
                  "mxwll",
                  "nmmr",
