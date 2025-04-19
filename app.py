@@ -1,22 +1,36 @@
 from telethon.sync import TelegramClient
+from telethon.errors import ChatWriteForbiddenError
 
-# Substitua com sua API ID e API Hash
 api_id = 20225004
 api_hash = '8f4c78e858658cd2aa21967a087bf819'
 
-# Substitua com o seu número de telefone (ex: +5511999999999) ou token de bot
-phone_number = input("Digite seu número de telefone com o código do país: ")
+# IDs corrigidos
+canal_origem = 2656975250      # Canal de onde vamos copiar
+canal_destino = 2590813877     # Canal para onde vamos enviar
 
-# Inicia sessão com o nome 'session'
 with TelegramClient('session', api_id, api_hash) as client:
-    print("Conectado com sucesso!")
+    print("🔌 Conectado com sucesso!")
 
-    # Tenta se conectar ao canal com o link fornecido
-    link_do_canal = "https://t.me/+91IjIh9b6VllMjIx"  # Substitua pelo link do canal desejado
     try:
-        # Junte-se ao canal usando o link
-        channel = client.get_entity(link_do_canal)
-        print(f"Canal encontrado: {channel.title}")
-        print(f"ID do canal: {channel.id}")
+        client.get_entity(canal_origem)
+        print("✅ Canal de origem acessado.")
     except Exception as e:
-        print(f"Erro ao acessar o canal: {e}")
+        print(f"❌ Erro ao acessar canal de origem: {e}")
+
+    try:
+        client.get_entity(canal_destino)
+        print("✅ Canal de destino acessado.")
+    except Exception as e:
+        print(f"❌ Erro ao acessar canal de destino: {e}")
+
+    for message in client.iter_messages(canal_origem, limit=5):
+        try:
+            if message.text:
+                client.send_message(canal_destino, message.text)
+                print(f"📤 Enviado: {message.text[:30]}...")
+            else:
+                print("⚠️ Mensagem sem texto, ignorada.")
+        except ChatWriteForbiddenError:
+            print("❌ Sem permissão para enviar mensagem.")
+        except Exception as e:
+            print(f"⚠️ Erro ao reenviar: {e}")
